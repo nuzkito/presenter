@@ -1,0 +1,19 @@
+{
+  "source": "src/index.html",
+  "devDependencies": {
+    "@parcel/transformer-inline-string": "^2.13.2",
+    "parcel": "^2.13.2",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "@codemirror/lang-markdown": "^6.3.1",
+    "@codemirror/language-data": "^6.5.1",
+    "codemirror": "^6.0.1",
+    "highlight.js": "^11.11.0",
+    "marked": "^15.0.3",
+    "marked-highlight": "^2.2.1"
+  },
+  "scripts": {
+    "server": "parcel --log-level info --no-autoinstall"
+  }
+}
