@@ -1,3 +1,5 @@
+@import 'npm:highlight.js/styles/a11y-light.css';
+
 :root {
     font-family: sans-serif;
     color: #222;
@@ -57,7 +59,7 @@
     .content {
         box-sizing: border-box;
         font-size: 5cqi;
-        padding: 10cqi;
+        padding: 5cqi;
         height: 100%;
         width: 100%;
         display: flex;

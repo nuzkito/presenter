@@ -1,7 +1,6 @@
 import { Marked } from 'marked'
 import { markedHighlight } from "marked-highlight"
 import hljs from 'highlight.js'
-import 'highlight.js/styles/a11y-light.css'
 
 const startSlideHtml = '<section class="slide"><div class="content">'
 const endSlideHtml = '</div></section>'
