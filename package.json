@@ -14,6 +14,7 @@
     "marked-highlight": "^2.2.1"
   },
   "scripts": {
+    "build": "parcel build --public-url ./",
     "server": "parcel --log-level info --no-autoinstall"
   }
 }
