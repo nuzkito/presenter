@@ -15,6 +15,6 @@
   },
   "scripts": {
     "build": "parcel build --public-url ./",
-    "server": "parcel --log-level info --no-autoinstall"
+    "server": "parcel --log-level info --port 2000 --no-autoinstall"
   }
 }
