@@ -8,6 +8,10 @@ if (module.hot) {
     module.hot.accept()
 }
 
+function updateWindowAspectRatio() {
+    document.querySelector('#slides').style.setProperty('--window-aspect-ratio', window.innerWidth / window.innerHeight)
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const presentation = new Presentation(document.querySelector('#slides'))
     const database = new Database()
@@ -20,4 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     presentation.print(editor.getContent())
     const presenter = new Presenter(presentation)
     presenter.initialize()
+
+    window.addEventListener("resize", updateWindowAspectRatio)
+    updateWindowAspectRatio()
 })

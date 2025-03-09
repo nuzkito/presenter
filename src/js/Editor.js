@@ -1,6 +1,9 @@
-import { EditorView, basicSetup } from 'codemirror'
 import { markdown } from '@codemirror/lang-markdown'
 import { languages } from '@codemirror/language-data'
+import { EditorView, drawSelection, highlightActiveLine, keymap } from '@codemirror/view'
+import { defaultKeymap, indentWithTab, history, historyKeymap } from '@codemirror/commands'
+import { bracketMatching, indentOnInput, syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language'
+import { closeBrackets } from '@codemirror/autocomplete'
 
 export default class Editor {
     #editorView
@@ -9,7 +12,14 @@ export default class Editor {
     constructor(container) {
         this.#editorView = new EditorView({
             extensions: [
-                basicSetup,
+                history(),
+                drawSelection(),
+                highlightActiveLine(),
+                syntaxHighlighting(defaultHighlightStyle),
+                keymap.of([indentWithTab, ...defaultKeymap, ...historyKeymap]),
+                bracketMatching(),
+                closeBrackets(),
+                indentOnInput(),
                 markdown({
                     codeLanguages: languages,
                 }),
