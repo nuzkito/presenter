@@ -3,6 +3,7 @@ import Markdown from "./Markdown.js"
 export default class Presentation {
     #container
     #currentSlide = 0
+    #listeners = []
 
     constructor(container) {
         this.#container = container
@@ -10,6 +11,26 @@ export default class Presentation {
 
     print(markdownString) {
         this.#container.innerHTML = new Markdown().parse(markdownString)
+
+        this.#listeners.forEach(listener => listener(this.#container))
+        this.#addCurrentClassToSlide(this.#currentSlide)
+    }
+
+    onPrint(listener) {
+        this.#listeners.push(listener)
+    }
+
+    #addCurrentClassToSlide(slideIndex) {
+        this.#container.children[slideIndex].classList.add('current')
+    }
+
+    #removeCurrentClassFromSlide(slideIndex) {
+        this.#container.children[slideIndex].classList.remove('current')
+    }
+
+    #changeCurrentClassOfSlide(lastSlideIndex, newSlideIndex) {
+        this.#removeCurrentClassFromSlide(lastSlideIndex)
+        this.#addCurrentClassToSlide(newSlideIndex)
     }
 
     moveToSlide(slideIndex) {
@@ -21,13 +42,11 @@ export default class Presentation {
             slideIndex = 0
         }
 
-        const lastSlide = this.#currentSlide
+        this.#changeCurrentClassOfSlide(this.#currentSlide, slideIndex)
         this.#currentSlide = slideIndex
-        this.#container.children[lastSlide].classList.remove('current')
-        this.#container.children[this.#currentSlide].classList.add('current')
 
         window.history.pushState(
-            {slide: this.#currentSlide + 1},
+            { slide: this.#currentSlide + 1 },
             'Slide ' + (this.#currentSlide + 1),
             location.origin + location.pathname + '?slide=' + (this.#currentSlide + 1),
         )

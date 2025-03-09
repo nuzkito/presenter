@@ -14,6 +14,16 @@ function updateWindowAspectRatio() {
 
 document.addEventListener("DOMContentLoaded", () => {
     const presentation = new Presentation(document.querySelector('#slides'))
+    const presenter = new Presenter(presentation)
+    presentation.onPrint(function (container) {
+        container.querySelectorAll('.slide').forEach(function (slide, index) {
+            slide.addEventListener('click', () => {
+                presentation.moveToSlide(index)
+                presenter.activatePresenterMode()
+            })
+        })
+    })
+
     const database = new Database()
     const editor = new Editor(document.querySelector('#editor'))
     editor.setContent(database.findPresentation() ?? defaultPresentationContent)
@@ -22,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
         database.savePresentation(content)
     })
     presentation.print(editor.getContent())
-    const presenter = new Presenter(presentation)
     presenter.initialize()
 
     window.addEventListener("resize", updateWindowAspectRatio)
