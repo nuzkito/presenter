@@ -33,7 +33,8 @@ export default class Presentation {
         this.#addCurrentClassToSlide(newSlideIndex)
     }
 
-    moveToSlide(slideIndex) {
+    moveToSlide(slideNumber) {
+        let slideIndex = slideNumber - 1
         if (slideIndex >= this.#container.children.length) {
             slideIndex = this.#container.children.length - 1
         }
@@ -44,23 +45,9 @@ export default class Presentation {
 
         this.#changeCurrentClassOfSlide(this.#currentSlide, slideIndex)
         this.#currentSlide = slideIndex
-
-        window.history.pushState(
-            { slide: this.#currentSlide + 1 },
-            'Slide ' + (this.#currentSlide + 1),
-            location.origin + location.pathname + '?slide=' + (this.#currentSlide + 1),
-        )
     }
 
-    moveToNextSlide() {
-        this.moveToSlide(this.#currentSlide + 1)
-    }
-
-    moveToPreviousSlide() {
-        this.moveToSlide(this.#currentSlide - 1)
-    }
-
-    currentSlide() {
-        return this.#currentSlide
+    totalSlides() {
+        return this.#container.children.length
     }
 }
