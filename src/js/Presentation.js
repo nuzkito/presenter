@@ -2,7 +2,6 @@ import Markdown from "./Markdown.js"
 
 export default class Presentation {
     #container
-    #currentSlide = 0
     #listeners = []
 
     constructor(container) {
@@ -13,24 +12,10 @@ export default class Presentation {
         this.#container.innerHTML = new Markdown().parse(markdownString)
 
         this.#listeners.forEach(listener => listener(this.#container))
-        this.#addCurrentClassToSlide(this.#currentSlide)
     }
 
     onPrint(listener) {
         this.#listeners.push(listener)
-    }
-
-    #addCurrentClassToSlide(slideIndex) {
-        this.#container.children[slideIndex].classList.add('current')
-    }
-
-    #removeCurrentClassFromSlide(slideIndex) {
-        this.#container.children[slideIndex].classList.remove('current')
-    }
-
-    #changeCurrentClassOfSlide(lastSlideIndex, newSlideIndex) {
-        this.#removeCurrentClassFromSlide(lastSlideIndex)
-        this.#addCurrentClassToSlide(newSlideIndex)
     }
 
     moveToSlide(slideNumber) {
@@ -43,8 +28,21 @@ export default class Presentation {
             slideIndex = 0
         }
 
-        this.#changeCurrentClassOfSlide(this.#currentSlide, slideIndex)
-        this.#currentSlide = slideIndex
+        Array.from(this.#container.children).forEach((slide, index) => {
+            if (index < slideIndex) {
+                slide.classList.add('previous')
+                slide.classList.remove('current')
+                slide.classList.remove('following')
+            } else if (index === slideIndex) {
+                slide.classList.add('current')
+                slide.classList.remove('previous')
+                slide.classList.remove('following')
+            } else if (index > slideIndex) {
+                slide.classList.add('following')
+                slide.classList.remove('previous')
+                slide.classList.remove('current')
+            }
+        });
     }
 
     totalSlides() {
