@@ -3,13 +3,17 @@ import Markdown from "./Markdown.js"
 export default class Presentation {
     #container
     #listeners = []
+    #router
 
-    constructor(container) {
+    constructor(container, router) {
         this.#container = container
+        this.#router = router
     }
 
     print(markdownString) {
         this.#container.innerHTML = new Markdown().parse(markdownString)
+
+        this.#changeSlideClasses(this.#router.currentState().slide - 1)
 
         this.#listeners.forEach(listener => listener(this.#container))
     }
@@ -28,6 +32,14 @@ export default class Presentation {
             slideIndex = 0
         }
 
+        this.#changeSlideClasses(slideIndex)
+    }
+
+    totalSlides() {
+        return this.#container.children.length
+    }
+
+    #changeSlideClasses(slideIndex) {
         Array.from(this.#container.children).forEach((slide, index) => {
             if (index < slideIndex) {
                 slide.classList.add('previous')
@@ -43,9 +55,5 @@ export default class Presentation {
                 slide.classList.remove('current')
             }
         });
-    }
-
-    totalSlides() {
-        return this.#container.children.length
     }
 }

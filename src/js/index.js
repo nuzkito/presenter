@@ -15,7 +15,7 @@ function updateWindowAspectRatio() {
 
 document.addEventListener("DOMContentLoaded", () => {
     const router = new Router()
-    const presentation = new Presentation(document.querySelector('#slides'))
+    const presentation = new Presentation(document.querySelector('#slides'), router)
     const presenter = new Presenter(router, presentation)
     const database = new Database()
     const editor = new Editor(document.querySelector('#editor'))
