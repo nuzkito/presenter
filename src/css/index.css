@@ -82,7 +82,15 @@ body {
     }
 }
 
-#start {
+.controls {
+    display: flex;
+    gap: 0.5em;
+}
+
+.start,
+.save,
+.load {
+    flex: 1;
     font-size: 2em;
     background-color: #ddd;
     color: #333;
@@ -92,7 +100,9 @@ body {
     transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-#start:hover {
+.start:hover,
+.save:hover,
+.load:hover {
     background-color: #eee;
     animation: button 0.2s ease;
     transform: scale(0.95);

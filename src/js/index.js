@@ -4,6 +4,7 @@ import Editor from './Editor.js'
 import Presentation from './Presentation.js'
 import Presenter from './Presenter.js'
 import Router from './Router.js'
+import Filesystem from './Filesystem.js'
 
 if (module.hot) {
     module.hot.accept()
@@ -19,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const presenter = new Presenter(router, presentation)
     const database = new Database()
     const editor = new Editor(document.querySelector('#editor'))
+    const filesystem = new Filesystem()
 
     presentation.onPrint(function (container) {
         container.querySelectorAll('.slide').forEach(function (slide, index) {
@@ -59,6 +61,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelector('#start').addEventListener('click', function () {
         router.goToPresentationMode(router.currentState().slide)
+    })
+
+    document.querySelector('#save').addEventListener('click', async () => {
+        try {
+            await filesystem.save(editor.getContent())
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                alert('Error saving file: ' + error.message)
+            }
+        }
+    })
+
+    document.querySelector('#load').addEventListener('click', async () => {
+        try {
+            const content = await filesystem.load()
+            editor.setContent(content)
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                alert('Error loading file: ' + error.message)
+            }
+        }
     })
 
     window.addEventListener("resize", updateWindowAspectRatio)
